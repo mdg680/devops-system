@@ -1,0 +1,10 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - docker.io
+runcmd:
+  - systemctl start docker
+  - systemctl enable docker
+  - usermod -aG docker ${admin_username}
+  - docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
